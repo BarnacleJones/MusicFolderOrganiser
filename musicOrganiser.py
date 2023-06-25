@@ -13,10 +13,10 @@ from pydub.utils import mediainfo
 #then run sudo python3 musicOrganiser.py
 
 # Configure logging
-logging.basicConfig(filename='music_organizer.log', level=logging.ERROR)
+logging.basicConfig(filename='MusicOrganiserErrorLog.log', level=logging.ERROR)
 
-# Informative messages
-print("Let's get this music organized like a boss!")
+# Start
+print("Let's get this music organized!")
 
 # Prompt for folder path or use the current folder
 folder_choice = input("Do you want to use the current folder? (Y/N): ")
@@ -38,7 +38,7 @@ def handle_error(file_path, error):
 
 # Confirmation prompt
 def confirm_action():
-    response = input("Do you want to proceed with the organization? (Y/N): ")
+    response = input("Locked and loaded, ready to organise? (Y/N): ")
     return response.lower() == "y"
 
 # Function to get metadata from audio file
@@ -49,12 +49,19 @@ def get_metadata(file_path):
             artist = tags.get("artist", [""])[0]
             album = tags.get("album", [""])[0]
             if not artist or not album:
-                artist = tags.get("albumartist", [""])[0]
-                if not artist:
-                    filename = os.path.basename(file_path)
-                    artist, album = extract_metadata_from_filename(filename)
-                    if not artist or not album:
-                        artist, album = extract_metadata_from_properties(tags)
+                print("No tag information for {} found".format(file_path))
+                print("You need to update the metadata functions for them to work")
+                print("But if you continue the worst case scenario is the files don't get moved")
+                continue_choice = input("Continue? (Y/N): ")
+                if continue_choice.lower() == "y":
+                    artist = tags.get("albumartist", [""])[0]
+                    if not artist:
+                        filename = os.path.basename(file_path)
+                        artist, album = extract_metadata_from_filename(filename)
+                        if not artist or not album:
+                            artist, album = extract_metadata_from_properties(tags)
+                    else:
+                        exit()
             return artist, album
         except mutagen.MutagenError:
             # Handle the case when an error occurs during tag parsing
