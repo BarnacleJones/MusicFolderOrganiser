@@ -2,7 +2,7 @@
 
 This is a script cooked up on a saturday arvo for organising my music folder.
 
-It was made with the help of chatGPT, but I have ironed out most of the kinks.
+I'm not often coding in Python, so it was made with the help of chatGPT...but I have ironed out most of the kinks.
 
 Error log will give you indication if anything went wrong and what it was.
 
